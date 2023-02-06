@@ -3,12 +3,18 @@
 
 # itertively remove isolated/discontinuous portions of the signal
 
-# def get_subset(two_d_array, i, j, threshold):
-#   outer = len(two_d_array)
-#   inner = len(two_d_array[0])
-#   subset = []
-#   for operand in range(threshold):
-#     for i in range()
+
+
+def get_subset(two_d_array, i, j, threshold):
+  subset = []
+  current_operand = 0
+  while current_operand <= threshold:
+    print(current_operand)
+    for element in get_layer(i, j, current_operand):
+      print(element)
+      subset.append(two_d_array[element[0]][element[1]])
+    current_operand += 1
+  return subset
 
 def get_layer(i, j, operand):
   layer = []
@@ -72,8 +78,12 @@ def valid_coord(coord):
 
 # x = get_layer(0,0,0)
 # y = get_layer(0,0,1)
-z = get_layer(0,0,2)
+# z = get_layer(0,0,3)
 
 # print(x)
 # print(y)
 # print(z)
+
+test_2d_array = [[1,2,3], [4,5,6,],[7,8,9]]
+
+print(get_subset(test_2d_array, 0, 0, 2))
