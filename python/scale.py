@@ -5,7 +5,7 @@ def  clean_noise(two_d_array, target_type, replacement_type, threshold, percent_
   imax = len(two_d_array)
   jmax = len(two_d_array[0])
 
-  i, j = 0
+  i = 0
 
   while i < imax:
     j = 0
@@ -108,6 +108,61 @@ def valid_coord(coord):
 # print(y)
 # print(z)
 
-test_2d_array = [[1,2,3], [4,5,6,],[7,8,9]]
+# test_2d_array = [[1,2,3], [4,5,6,],[7,8,9]]
 
-print(get_subset(test_2d_array, 0, 0, 2))
+# print(get_subset(test_2d_array, 0, 0, 2))
+
+# test 1: with our color matrix from assets, try replacing noise-y black elements with white elements
+# keep both onhand and do a side by side comparison with pyplot
+def get_color_matrix(mapdata):
+    ground = 0
+    wall = 1
+    undefined = 1
+    height = len(mapdata)
+    width = len(mapdata[0])
+    color_matrix = []
+    for row in reversed(range(height)):
+        temprow = []
+        for col in range(width):
+            obfuscatedInt = mapdata[row][col]
+            for i in range(16):
+                tmp = (obfuscatedInt & (0x03 << (i * 2))) >> (i * 2)
+                if (tmp == 0):
+                    temprow.append(wall)
+                elif (tmp == 1):
+                    temprow.append(ground)
+                else:
+                    temprow.append(undefined)
+        color_matrix.append(temprow)
+    return color_matrix
+
+import matplotlib.pyplot as plt
+import json
+  
+# Opening JSON file
+f = open('/Users/administrator/Documents/GitHub/parse-.umap/assets/map.umap')
+  
+# returns JSON object as 
+# a dictionary
+data = json.load(f)
+# print(data.keys())
+mapdata = data["mapdata"]
+color_matrix = get_color_matrix(mapdata)
+updated_color_matrix = clean_noise(color_matrix, 0, 2, 1, 0.5)
+
+print("starting plot")
+# updated_color_matrix = plt.imclose(color_matrix)
+plt.figure(figsize=(8,8))
+plt.subplot(121)
+
+plt.imshow(color_matrix) #, cmap="Greys")
+plt.axis('off')
+plt.title('unprocessed')
+
+plt.subplot(122)
+
+plt.imshow(updated_color_matrix) #, cmap="Greys")
+plt.axis('off')
+plt.title('processed with clean_noise()')
+
+plt.show()
