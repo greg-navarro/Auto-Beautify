@@ -1,8 +1,38 @@
 # Using the 'resolution' from the umap file, estimate what the maximum size of an instance of 'noise' might be.
 # Then search each element of the array to see if it is the center of such a noise instance.
+def  clean_noise(two_d_array, target_type, replacement_type, threshold, percent_positivity):
+  updated_array = two_d_array.copy()
+  imax = len(two_d_array)
+  jmax = len(two_d_array[0])
 
-# itertively remove isolated/discontinuous portions of the signal
+  i, j = 0
 
+  while i < imax:
+    j = 0
+    while j < jmax:
+      if updated_array[i][j] == target_type and is_noise(updated_array, i, j, threshold, percent_positivity):
+        updated_array[i][j] = replacement_type
+      j += 1
+    i += 1
+
+  return updated_array
+
+
+
+# determines if element might be noise be checking how many times element appears in subset of image
+# i and j denote center of subset and element we are judging
+# threshold is the number of 'layers' we should include around the center, 0 will only examine the center
+# percent_positivity is the ratio stating how many positives we need to say if this element is not noise
+def is_noise(two_d_array, i, j, threshold, percent_positivity):
+  center_element = two_d_array[i][j]
+  subset = get_subset(two_d_array, i, j, threshold)
+  # find number of occurences of center element in hte subsetf
+  positives = two_d_array.count(center_element)
+  percent_positive = positives / len(subset)
+  if (percent_positive >= percent_positivity):
+    return False
+  else: 
+    return True
 
 
 def get_subset(two_d_array, i, j, threshold):
@@ -28,34 +58,28 @@ def get_layer(i, j, operand):
   least_coord = [i-operand, j-operand]
   icurrent = least_coord[0]
   jcurrent = least_coord[1]  
-  # [i - op, j - op] = [0 - 1, 0 - 1]
+  
   # iterate over top of layer by iterating j upward
   while jcurrent < j + operand:
     print("first loop: ",icurrent, jcurrent)
     if valid_coord([icurrent, jcurrent]):
       layer.append([icurrent, jcurrent])
     jcurrent += 1
-  # correct jcurrent
-  # [i - op, j + op] = [0 - 1, 0 + 1]
-  # jcurrent = j + operand
+  
   # iterate 'downwards' over 'right' side of the layer
   while icurrent < i + operand:
     print("second loop: ",icurrent, jcurrent)
     if valid_coord([icurrent, jcurrent]):
       layer.append([icurrent, jcurrent])
     icurrent += 1
-  # correct icurrent
-  # [i + op, j + op] = [0 + 1, 0 + 1]
-  # icurrent = i + operand
+  
   # iterate 'leftwards' over 'bottom' side of the layer
   while jcurrent > j - operand:
     print("third loop: ",icurrent, jcurrent)
     if valid_coord([icurrent, jcurrent]):
       layer.append([icurrent, jcurrent])
     jcurrent -= 1
-  #correct jcurrent
-  # [i + op, j - op] = [0 + 1, 0 - 1]
-  # jcurrent = j - operand
+  
   # iterate 'upwards' over 'left' side of the layer
   while icurrent > least_coord[0]:
     print("fourth loop: ",icurrent, jcurrent)
