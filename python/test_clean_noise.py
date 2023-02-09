@@ -7,20 +7,6 @@ import datetime
 import matplotlib.pyplot as plt
 import os
 
-# test the methods used to by top level method clean_noise
-# x = get_layer(0,0,0)
-# y = get_layer(0,0,1)
-# z = get_layer(0,0,3)
-
-# print(x)
-# print(y)
-# print(z)
-
-# test_2d_array = [[1,2,3], [4,5,6,],[7,8,9]]
-
-# print(get_subset(test_2d_array, 0, 0, 2))
-
-
 # TESTING 
 # target_type will be WALL
 # replacement_type will be GROUND
@@ -53,7 +39,6 @@ WALL = 0
 GROUND = 1
 # TODO: no definite value for UNDEFINED in this implementation
 #       this can be corrected in color_matrix.py
-
 TARGET_TYPE = WALL
 REPLACEMENT_TYPE = GROUND
 
