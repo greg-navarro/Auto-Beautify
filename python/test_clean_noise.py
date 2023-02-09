@@ -39,7 +39,7 @@ basic_color_matrix = get_color_matrix(mapdata)
 # open file for writing logs
 datetimestr = datetime.datetime.now() # .replace(" ", "-")
 datetimestr = str(datetimestr).replace(" ", "_")
-directory_name = 'test_results_{}'.format(datetimestr)
+directory_name = os. getcwd() + 'test_results'  # _{}'.format(datetimestr)
 image_directory_name = directory_name + "/images/"
 os.makedirs(os.path.dirname(image_directory_name), exist_ok=True)
 log_file = 'test_results.txt'
