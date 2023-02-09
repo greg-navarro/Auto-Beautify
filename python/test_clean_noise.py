@@ -38,12 +38,14 @@ basic_color_matrix = get_color_matrix(mapdata)
 
 # open file for writing logs
 datetimestr = datetime.datetime.now() # .replace(" ", "-")
-datetimestr = str(datetimestr).replace(" ", "_")
-directory_name = os. getcwd() + 'test_results'  # _{}'.format(datetimestr)
+datetimestr = str(datetimestr).replace(" ", "_").replace("-", "_").replace(":", "_").replace(".", "_")
+directory_name = os. getcwd() + '/test_results_{}'.format(datetimestr)
 image_directory_name = directory_name + "/images/"
+print(image_directory_name)
 os.makedirs(os.path.dirname(image_directory_name), exist_ok=True)
 log_file = 'test_results.txt'
-log_file_url = "/" + directory_name + "/" + log_file
+log_file_url = directory_name + "/" + log_file
+print(log_file_url)
 os.makedirs(os.path.dirname(log_file_url), exist_ok=True)
 test_out = open(log_file_url, 'w') # FIXME maybe change mode to w
 
@@ -81,8 +83,11 @@ for threshold in range(MAX_THRESHOLD_VALUE):
         plt.imshow(result_matrix) 
         plt.axis('off')
         plt.title('threshold: {} -- percent positivity: {}'.format(threshold, percent_positivity))
-        plt.savefig('{}/images/{}.png'.format(directory_name, test_number))
+        plt.savefig('{}{}.png'.format(image_directory_name, test_number))
+        print('{}{}.png'.format(image_directory_name, test_number))
+        plt.close()
+        test_number += 1
 
-
-test_out.close()
+plt.close()
+# test_out.close()
 print("ending test_clean_noise.py")
