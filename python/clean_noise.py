@@ -28,7 +28,7 @@ def is_noise(two_d_array, i, j, threshold, percent_positivity):
   center_element = two_d_array[i][j]
   subset = get_subset(two_d_array, i, j, threshold)
   # find number of occurences of center element in hte subsetf
-  positives = two_d_array.count(center_element)
+  positives = subset.count(center_element)
   percent_positive = positives / len(subset)
   if (percent_positive >= percent_positivity):
     return False
