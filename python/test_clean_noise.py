@@ -5,6 +5,7 @@ from color_matrix import *
 import json
 import datetime
 import matplotlib.pyplot as plt
+import os
 
 # test the methods used to by top level method clean_noise
 # x = get_layer(0,0,0)
@@ -30,7 +31,7 @@ import matplotlib.pyplot as plt
 # additionally an image should be saved for each test under test_results/images/ with a number that corresponds to entry in test_results.txt
 
 # obtain basic color_matrix
-umapFile =  open('/home/administrator/Documents/research/Auto-Beautify/simple-webpage/assets/map.umap')
+umapFile =  open('/Users/administrator/Documents/GitHub/Auto-Beautify/simple-webpage/assets/map.umap')
 data = json.load(umapFile)
 mapdata = data["mapdata"]
 basic_color_matrix = get_color_matrix(mapdata)
@@ -39,9 +40,12 @@ basic_color_matrix = get_color_matrix(mapdata)
 datetimestr = datetime.datetime.now() # .replace(" ", "-")
 datetimestr = str(datetimestr).replace(" ", "_")
 directory_name = 'test_results_{}'.format(datetimestr)
+image_directory_name = directory_name + "/images/"
+os.makedirs(os.path.dirname(image_directory_name), exist_ok=True)
 log_file = 'test_results.txt'
-log_file_url = directory_name + "/" + log_file
-test_out = open(log_file_url, 'r')
+log_file_url = "/" + directory_name + "/" + log_file
+os.makedirs(os.path.dirname(log_file_url), exist_ok=True)
+test_out = open(log_file_url, 'w') # FIXME maybe change mode to w
 
 WALL = 0
 GROUND = 1
