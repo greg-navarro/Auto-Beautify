@@ -127,3 +127,5 @@ dist
 .pnp.*
 *.docx
 .DS_Store
+notes/.$auto-beautify-pipeline.drawio.bkp
+notes/auto-beautify-pipeline.drawio
