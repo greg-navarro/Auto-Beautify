@@ -1,7 +1,9 @@
+import copy
+
 # Using the 'resolution' from the umap file, estimate what the maximum size of an instance of 'noise' might be.
 # Then search each element of the array to see if it is the center of such a noise instance.
 def  clean_color_matrix(two_d_array, target_type, replacement_type, threshold, percent_positivity):
-  updated_array = two_d_array.copy()
+  updated_array = copy.deepcopy(two_d_array)
   imax = len(two_d_array)
   jmax = len(two_d_array[0])
 
