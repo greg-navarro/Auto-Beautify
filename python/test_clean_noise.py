@@ -22,19 +22,6 @@ data = json.load(umapFile)
 mapdata = data["mapdata"]
 basic_color_matrix = get_color_matrix(mapdata)
 
-# open file for writing logs
-datetimestr = datetime.datetime.now() # .replace(" ", "-")
-datetimestr = str(datetimestr).replace(" ", "_").replace("-", "_").replace(":", "_").replace(".", "_")
-directory_name = os. getcwd() + '/test_results_{}'.format(datetimestr)
-image_directory_name = directory_name + "/images/"
-print(image_directory_name)
-os.makedirs(os.path.dirname(image_directory_name), exist_ok=True)
-log_file = 'test_results.txt'
-log_file_url = directory_name + "/" + log_file
-print(log_file_url)
-os.makedirs(os.path.dirname(log_file_url), exist_ok=True)
-test_out = open(log_file_url, 'w') # FIXME maybe change mode to w
-
 WALL = 0
 GROUND = 1
 # TODO: no definite value for UNDEFINED in this implementation
@@ -42,46 +29,24 @@ GROUND = 1
 TARGET_TYPE = WALL
 REPLACEMENT_TYPE = GROUND
 
-MAX_THRESHOLD_VALUE = 10
+THRESHOLD = 1
 threshold_values = []
-percent_positivity_values = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+percent_positivity_values = [0.2, 0.4, 0.5, 0.55, 0.6]
 color_matrix_outputs = [] # container for processed color_matrices
 
 test_number = 1
 
-for threshold in range(MAX_THRESHOLD_VALUE):
-    threshold_values.append(threshold)
-    for percent_positivity in percent_positivity_values:
-        result_matrix = clean_color_matrix(basic_color_matrix, TARGET_TYPE, REPLACEMENT_TYPE, threshold, percent_positivity)
-        color_matrix_outputs.append(result_matrix)
-        # record details of test in log
-        logEntry = "{} -- threshold: {} -- percent positivity: {} \n".format(test_number, threshold, percent_positivity) 
-        test_out.write(logEntry)
-        # TODO add method to count how many differences exist between the two arrays
-        # plot figures, and save the figures to disk in /test_results_<datetime>/images/ 
-        # plt.figure(figsize=(8, 8))
-        # plt.subplot(121)
-        # plt.imshow(basic_color_matrix) 
-        # plt.axis('off')
-        # plt.title('unprocessed')
-        # plt.subplot(122)
-        # plt.imshow(result_matrix) 
-        # plt.axis('off')
-        # plt.title('threshold: {} -- percent positivity: {}'.format(threshold, percent_positivity))
-        # plt.savefig('{}{}.png'.format(image_directory_name, test_number))
-        # print('{}{}.png'.format(image_directory_name, test_number))
-        # plt.close()
-        test_number += 1
 
-# make image
-fig, axs = plt.subplots(len(color_matrix_outputs), 2)
-for row_index in range(0, len(color_matrix_outputs)):
-    axs[row_index,0].plot(basic_color_matrix)
-    axs[row_index,0].set_title('provided map')
-    axs[row_index,1].plot(color_matrix_outputs[row_index])
-    axs[row_index,1].set_title('processed map {}'.format(row_index+1))
-plt.savefig('{}tests.png'.format(image_directory_name))
-plt.show()
-plt.close()
-# test_out.close()
+for percent_positivity in percent_positivity_values:
+    result_matrix = clean_color_matrix(basic_color_matrix, TARGET_TYPE, REPLACEMENT_TYPE, THRESHOLD, percent_positivity)
+    color_matrix_outputs.append(result_matrix)
+
+
+# Serializing json
+json_object = json.dumps(color_matrix_outputs)
+ 
+# Writing to sample.json
+with open("color-matrices.json", "w") as outfile:
+    outfile.write(json_object)
+
 print("ending test_clean_noise.py")
