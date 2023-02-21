@@ -16,5 +16,5 @@ html, body {
 canvas {
   width: 832px;
   height: 768px;
-  background-color: #eee;
+  /* background-color: #eee; */
 }

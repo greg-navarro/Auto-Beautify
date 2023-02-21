@@ -7,9 +7,10 @@ import matplotlib.pyplot as plt
 import json
 import os
 
+
 # Constants relevant to processing algo
 THRESHOLD = 1
-POSITIVITY_RATIO = 0.2
+POSITIVITY_RATIO = 0.5
 WALL = 0
 GROUND = 1
 # TODO: no definite value for UNDEFINED in this implementation
@@ -40,8 +41,8 @@ plt.subplot(122)
 
 plt.imshow(updated_color_matrix) #, cmap="Greys")
 plt.axis('off')
-plt.title('threshold: {} -- percent positivity {}'.format(THRESHOLD, POSITIVITY_RATIO))
+plt.title('subset-radius: {} -- threshold: {}'.format(THRESHOLD, POSITIVITY_RATIO))
 plt.savefig('/Users/administrator/Documents/GitHub/Auto-Beautify/test-results/imageth{}pos{}.png'.format(THRESHOLD, POSITIVITY_RATIO))
 plt.show()
-
+plt.close()
 print("ending basic_test.py")

@@ -15,18 +15,32 @@
       // import mapdata from "./umap_color_matrix.json" assert { type: "json" };
       import mapDataArray from "./assets/color-matrices.json" assert { type: "json"}
       let mapData = mapDataArray[4]
+      console.log(mapDataArray.length)
       const canvasHeight = 768;
       const canvasWidth = 832;
       const COLOR_WALL = "rgba(59, 59, 59, 0.5)";
       const COLOR_GROUND = "#fff";
       const COLOR_UNDEFINED = "#eee";
 
+      for (let i = 0; i < mapData.length; i++) {
+        // console.log("row")
+        for (let j = 0; j < mapData[i].length; j++) {
+          const tile = mapData[i][j]
+          // console.log(tile)
+          if (tile === COLOR_GROUND) {
+            mapData[i][j] = COLOR_UNDEFINED
+            // console.log(`tile ${i}: ${tile}`)
+          }
+        }
+        
+      }
+
       function setMapData(mapIndex) {
         if (mapIndex < mapDataArray.length) {
           mapData = mapDataArray[mapIndex]
           drawMapData()
         } else {
-          console.log(`${mapIndex} is an invalid selection, try something in the range of ${0} to ${mapDataArray.length}`)
+          // console.log(`${mapIndex} is an invalid selection, try something in the range of ${0} to ${mapDataArray.length}`)
         }
       }
 
