@@ -129,3 +129,5 @@ dist
 .DS_Store
 notes/.$auto-beautify-pipeline.drawio.bkp
 notes/auto-beautify-pipeline.drawio
+*.png
+*.txt
